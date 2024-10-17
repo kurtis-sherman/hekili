@@ -185,4 +185,4 @@ actions.bear+=/brutal_slash
 
 actions.mitigation+=/frenzied_regeneration,if=health.pct<65
 actions.mitigation+=/barkskin,if=health.pct<75&incoming_damage_5s>0.1*health.max
-actions.mitigation+=/survival_instincts,if=buff.survival_instincts.down&buff.barkskin.down&health.pct<60&incoming_damage_5s>0.25*health.max
+actions.mitigation+=/survival_instincts,if=buff.survival_instincts.down&health.pct<50
