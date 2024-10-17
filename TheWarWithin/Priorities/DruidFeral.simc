@@ -21,7 +21,7 @@ actions+=/soothe
 ## actions+=/invoke_external_buff,name=power_infusion,if=buff.bs_inc.up|!talent.berserk_heart_of_the_lion
 actions+=/call_action_list,name=variable
 ## actions+=/stop_moving,if=gcd.remains=0&equipped.ovinaxs_mercurial_egg
-actions+=/tigers_fury,if=(energy.deficit>35|combo_points=5|combo_points>=3&dot.rip.refreshable&buff.bloodtalons.up)&(boss&fight_remains<=15|(cooldown.bs_inc.remains>20&fight_remains>5)|(cooldown.bs_inc.ready&fight_remains>12|boss))
+actions+=/tigers_fury,if=buff.bear_form.down&(energy.deficit>35|combo_points=5|combo_points>=3&dot.rip.refreshable&buff.bloodtalons.up)&(boss&fight_remains<=15|(cooldown.bs_inc.remains>20&fight_remains>5)|(cooldown.bs_inc.ready&fight_remains>12|boss))
 actions+=/rake,cycle_targets=1,if=buff.shadowmeld.up|buff.prowl.up
 actions+=/natures_vigil,if=variable.regrowth&health.percent<70&(buff.bs_inc.up|buff.tigers_fury.up)
 actions+=/renewal,if=variable.regrowth&health.percent<70
@@ -91,7 +91,7 @@ actions.cooldown+=/incarnation,if=fight_remains>17|boss
 actions.cooldown+=/use_item,slot=trinket1,if=(trinket.1.has_use_damage|trinket.1.is.twin_fang_instruments|trinket.1.is.sikrans_endless_arsenal)&(trinket.2.cooldown.remains>20|!variable.trinket_2_buffs|trinket.2.cooldown.remains&cooldown.tigers_fury.remains>20)
 actions.cooldown+=/use_item,slot=trinket2,if=(trinket.2.has_use_damage|trinket.2.is.twin_fang_instruments|trinket.2.is.sikrans_endless_arsenal)&(trinket.1.cooldown.remains>20|!variable.trinket_1_buffs|trinket.1.cooldown.remains&cooldown.tigers_fury.remains>20)
 # berserk with tigers fury
-actions.cooldown+=/berserk,if=buff.tigers_fury.up&(fight_remains>12|boss)
+actions.cooldown+=/berserk,if=buff.bear_form.down&buff.tigers_fury.up&(fight_remains>12|boss)
 actions.cooldown+=/berserking,if=buff.bs_inc.up
 # todo make last set of cds line up again now that we know potions.remains is the syntax
 actions.cooldown+=/potion,if=buff.bs_inc.up|boss&fight_remains<32|(!variable.lastzerk&variable.lastconvoke&cooldown.convoke_the_spirits.remains<10)
