@@ -8,14 +8,31 @@ local Hekili = _G[ addon ]
 local class, state = Hekili.Class, Hekili.State
 local PTR = ns.PTR
 
-local format, wipe = string.format, table.wipe
+local format, wipe, max = string.format, table.wipe, math.max
 local UA_GetPlayerAuraBySpellID = C_UnitAuras.GetPlayerAuraBySpellID
 
 local orderedPairs = ns.orderedPairs
 
 local spec = Hekili:NewSpecialization( 259 )
 
-spec:RegisterResource( Enum.PowerType.ComboPoints )
+spec:RegisterResource( Enum.PowerType.ComboPoints, nil, nil, {
+    percent = function( t )
+        return max( 0, 100 * state.effective_combo_points / state.combo_points.max )
+    end,
+
+    deficit = function( t )
+        return max( 0, state.combo_points.max - state.effective_combo_points )
+    end,
+
+    deficit_percent = function( t )
+        return 100 * max( 0, state.combo_points.max - state.effective_combo_points ) / state.combo_points.max
+    end,
+
+    deficit_pct = function( t )
+        return 100 * max( 0, state.combo_points.max - state.effective_combo_points ) / state.combo_points.max
+    end
+} )
+
 spec:RegisterResource( Enum.PowerType.Energy, {
     garrote_vim = {
         aura = "garrote",
@@ -790,9 +807,8 @@ spec:RegisterHook( "reset_precast", function ()
         kingsbaneReady = true
     end
 
-    if buff.master_assassin.up and buff.master_assassin.remains > 3 then
-        removeBuff( "master_assassin" )
-        applyBuff( "master_assassin_aura" )
+    if buff.master_assassin.up and buff.master_assassin.remains <= 3 and buff.master_assassin.remains > 1.5 then
+        applyBuff( "master_assassin_aura", buff.master_assassin.remains - 1.5 )
     end
 end )
 
@@ -802,8 +818,8 @@ spec:RegisterHook( "runHandler", function( ability )
 
     if stealthed.mantle and ( not a or a.startsCombat ) then
         if talent.master_assassin.enabled then
-            removeBuff( "master_assassin_aura" )
-            applyBuff( "master_assassin" )
+            applyBuff( "master_assassin_aura" ) -- 1.5s
+            applyBuff( "master_assassin" ) -- 3.0s
         end
 
         if talent.subterfuge.enabled then
@@ -1354,7 +1370,7 @@ spec:RegisterAuras( {
         max_stack = 1,
     },
     master_assassin_aura = {
-        duration = 3600,
+        duration = 1.5,
         max_stack = 1
     },
     -- Damage dealt increased by $w1%.
@@ -1741,7 +1757,7 @@ spec:RegisterAbilities( {
 
         spend = function()
             if buff.blindside.up then return 0 end
-            return 50 * ( 1 - 0.06 * talent.tight_spender.rank )
+            return 50 + ( talent.vicious_venoms.rank * 5 )
         end,
         spendType = "energy",
 
@@ -1848,7 +1864,7 @@ spec:RegisterAbilities( {
 
         spend = function ()
             if talent.dirty_tricks.enabled then return 0 end
-            return 40 * ( 1 - 0.06 * talent.tight_spender.rank ) * ( 1 + conduit.rushed_setup.mod * 0.01 ) end,
+            return 40 * ( 1 + conduit.rushed_setup.mod * 0.01 ) * ( 1 - 0.2 * talent.rushed_setup.rank ) end,
         spendType = "energy",
 
         startsCombat = true,
@@ -1949,7 +1965,9 @@ spec:RegisterAbilities( {
         gcd = "totem",
         school = "physical",
 
-        spend = 30,
+        spend = function ()
+            return 45 * ( 1 - 0.06 * talent.tight_spender.rank )
+        end,
         spendType = "energy",
 
         talent = "crimson_tempest",
@@ -2084,7 +2102,9 @@ spec:RegisterAbilities( {
         gcd = "totem",
         school = "nature",
 
-        spend = 35,
+        spend = function ()
+            return 35 * ( 1 - 0.06 * talent.tight_spender.rank )
+        end,
         spendType = "energy",
 
         startsCombat = true,
@@ -2451,7 +2471,9 @@ spec:RegisterAbilities( {
         gcd = "totem",
         school = "physical",
 
-        spend = 50,
+        spend = function()
+            return 50 + ( talent.vicious_venoms.rank * 5 )
+        end,
         spendType = "energy",
 
         startsCombat = true,
@@ -2531,7 +2553,7 @@ spec:RegisterAbilities( {
 
         spend = function()
             if buff.goremaws_bite.up then return 0 end
-            return 25
+            return 25 * ( 1 - 0.06 * talent.tight_spender.rank )
         end,
         spendType = "energy",
 
