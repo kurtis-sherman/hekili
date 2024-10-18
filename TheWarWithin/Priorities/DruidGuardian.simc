@@ -9,6 +9,7 @@ actions+=/soothe
 actions+=/use_item,slot=trinket1
 actions+=/use_item,slot=trinket2
 actions+=/potion,if=(buff.berserk_bear.up|buff.incarnation_guardian_of_ursoc.up)
+actions+=/remove_corruption,if=talent.remove_corruption.enabled
 actions+=/call_action_list,name=mitigation
 actions+=/run_action_list,name=bear
 
