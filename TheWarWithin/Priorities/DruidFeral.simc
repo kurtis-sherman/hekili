@@ -170,6 +170,7 @@ actions.bear+=/raze,if=variable.if_build=0&(active_enemies>1|(buff.tooth_and_cla
 actions.bear+=/shred,if=cooldown.rage_of_the_sleeper.remains<=52&buff.feline_potential_counter.stack=6&!buff.cat_form.up&!dot.rake.refreshable&active_enemies<3&talent.fluid_form.enabled
 actions.bear+=/rake,if=cooldown.rage_of_the_sleeper.remains<=52&buff.feline_potential_counter.stack=6&!buff.cat_form.up&active_enemies<3&talent.fluid_form.enabled
 actions.bear+=/mangle,if=buff.cat_form.up&talent.fluid_form.enabled
+actions.bear+=/brutal_slash
 actions.bear+=/thrash_bear,if=active_enemies>=5
 actions.bear+=/mangle,if=(buff.incarnation.up&active_enemies<=4)|(buff.incarnation.up&talent.soul_of_the_forest.enabled&active_enemies<=5)|((rage<88)&active_enemies<11)|((rage<83)&active_enemies<11&talent.soul_of_the_forest.enabled)
 actions.bear+=/thrash_bear,if=active_enemies>1
@@ -181,7 +182,6 @@ actions.bear+=/rip,if=buff.cat_form.up&!dot.rip.ticking&active_enemies<3&variabl
 actions.bear+=/ferocious_bite,if=dot.rip.ticking&combo_points>4&active_enemies<3&variable.ripweaving=1
 actions.bear+=/starsurge,if=talent.starsurge.enabled&rage<20
 actions.bear+=/moonfire,if=(talent.lunar_insight.enabled&active_enemies>1)&buff.bear_form.up
-actions.bear+=/brutal_slash
 
 actions.mitigation+=/frenzied_regeneration,if=health.pct<65
 actions.mitigation+=/barkskin,if=health.pct<75&incoming_damage_5s>0.1*health.max
