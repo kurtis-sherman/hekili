@@ -1615,7 +1615,7 @@ spec:RegisterAbilities( {
         talent = "brutal_slash",
         startsCombat = true,
 
-        form = "cat_form",
+        form = function () return buff.bear_form.up and "bear_form" or "cat_form" end,
 
         damage = function ()
             return calculate_damage( 1.476, false, true ) * ( buff.clearcasting.up and class.auras.clearcasting.multiplier or 1 )
