@@ -57,7 +57,6 @@ actions.bear+=/swipe_bear,if=(talent.lunar_insight.enabled&active_enemies>4)|!ta
 actions.bear+=/moonfire,if=(talent.lunar_insight.enabled&active_enemies>1)&buff.bear_form.up
 
 actions.mitigation=ironfur,if=tanking&!variable.if_build&incoming_damage_5s>ironfur_damage_threshold&buff.ironfur.remains<3*haste&buff.ironfur.stack<5
-actions.mitigation+=/regrowth,if=health.pct<65
 actions.mitigation+=/renewal,if=health.pct<65
 actions.mitigation+=/frenzied_regeneration,if=tanking&health.pct<65
 actions.mitigation+=/barkskin,if=tanking&health.pct<75&incoming_damage_5s>0.1*health.max
